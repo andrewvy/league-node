@@ -7,5 +7,5 @@ This fork aims to fix the bugs left behind in the original project, and expand t
 
 We've got some RTMP Queries working!
 
-[Getting Started](https://github.com/andrewvy/league-node/wiki/Getting-Started)
+[Getting Started](https://github.com/andrewvy/league-node/wiki)
 -------------------
