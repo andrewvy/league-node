@@ -9,3 +9,21 @@ We've got some RTMP Queries working!
 
 [Getting Started](https://github.com/andrewvy/league-node/wiki)
 -------------------
+
+# [API Functions](https://github.com/andrewvy/league-node/wiki/API-Documentation)
+
+	LolClient.getSummonerByName(name, cb)
+
+	LolClient.getCurrentGameByName(name, cb)
+
+	LolClient.getSummonerStats(acctId, cb)
+
+	LolClient.getMatchHistory(acctId, cb)
+
+	LolClient.getAggregatedStats(acctId, cb)
+
+	LolClient.getTeamsForSummoner(summonerId, cb)
+
+	LolClient.getTeamById(teamId, cb)
+
+	LolClient.getSummonerData(acctId, cb)
