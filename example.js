@@ -10,7 +10,13 @@ var options = {
 
 var client = new LolClient(options);
 
+var heartbeat = function() {
+	client.heartbeat();
+};
+
 client.on('connection', function() {
+	setInterval(heartbeat, 5000);
+
 	console.log("Successfully connected!");
 	// Put other code in here, once the client has successfully connected. Queries, etc.
 });

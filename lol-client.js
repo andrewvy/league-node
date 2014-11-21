@@ -105,7 +105,6 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 				if (_this.options.debug) {
 					console.log("Login Queue Response: ", response);
 				}
-				console.log("Token", response.token);
 				_this.options.queueToken = response.token;
 				cb(null, _this.options.queueToken);
 			}
