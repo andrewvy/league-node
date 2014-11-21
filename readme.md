@@ -1,5 +1,6 @@
 league-node
 ===============
+*A League of Legends RTMP Client written in Node.js*
 
 Forked from https://github.com/nagash/node-lol-client, credits for his work on most of the base code, and especially the AMF RTMP library, crucial for communication with Riot's servers.
 
