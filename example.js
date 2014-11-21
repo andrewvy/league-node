@@ -20,7 +20,7 @@ var client = new LolClient(options);
 client.on('connection', function() {
 	console.log("Successfully connected!");
 
-	client.getCurrentGameByName("ertha09", function(err, result) {
+	client.getSummonerByName("", function(err, result) {
 		return console.log(util.inspect(result, false, null, true));
 	});
 });
