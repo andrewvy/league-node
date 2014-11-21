@@ -235,6 +235,23 @@ LolClient.prototype.subscribeBC = function(result) {
 	})
 };
 
+LolClient.prototype.heartbeat = function() {
+	var _this = this;
+
+	if (this.options.debug) { console.log("Performing Heartbeat"); }
+
+	var Heartbeat = lolPackets.HeartbeatPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new Heartbeat(this.options).generate()]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err && _this.options.debug) {
+			console.log("Heartbeat failed")
+		} else if (_this.options.debug) {
+			console.log("Heartbeat success")
+		}
+	});
+}
+
 LolClient.prototype.getSummonerByName = function(name, cb) {
 	var _this = this;
 

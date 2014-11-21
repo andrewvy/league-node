@@ -18,6 +18,7 @@ summoner = {
 var client = new LolClient(options);
 
 client.on('connection', function() {
+	setInterval(client.HeartBeat, 5000);
 	console.log("Successfully connected!");
 });
 
