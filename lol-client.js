@@ -1,30 +1,28 @@
 var tls = require('tls');
 var loginQueue = require('./lib/login-queue');
-var lolPackets = require('./lob/packets');
+var lolPackets = require('./lib/packets');
 var rtmp = require('namf/rtmp');
 
 var RTMPClient = rtmp.RTMPClient;
 var RTMPCommand = rtmp.RTMPCommand;
 var EventEmitter = require('events').EventEmitter;
 
-var LolClient = function() {
+var LolClient = function(options) {
 	EventEmitter.apply(this, arguments);
-};
 
-LolClient.prototype = EventEmitter.prototype;
-LolClient.prototype.constructor = function(options) {
+	console.log(options);
 	this.options = options;
 
 	this._rtmpHosts = {
-		'na': 'prod.na1.lol.riotgames.com'
-		'euw': 'prod.eu.lol.riotgames.com'
-		'eune': 'prod.eun1.lol.riotgames.com'
+		na: 'prod.na2.lol.riotgames.com',
+		euw: 'prod.eu.lol.riotgames.com',
+		eune: 'prod.eun1.lol.riotgames.com'
 	};
 
 	this._loginQueueHosts = {
-		'na': 'lq.na1.lol.riotgames.com'
-		'euw': 'lq.eu.lol.riotgames.com'
-		'eune': 'lq.eun1.lol.riotgames.com'
+		na: 'lq.na2.lol.riotgames.com',
+		euw: 'lq.eu.lol.riotgames.com',
+		eune: 'lq.eun1.lol.riotgames.com'
 	};
 
 	if (this.options.region) {
@@ -47,6 +45,8 @@ LolClient.prototype.constructor = function(options) {
 	}
 };
 
+LolClient.prototype = EventEmitter.prototype;
+
 LolClient.prototype.connect = function(cb) {
 	var _this = this;
 	this.checkLoginQueue( function(err, token) {
@@ -60,7 +60,7 @@ LolClient.prototype.connect = function(cb) {
 			_this.setupRTMP();
 		});
 	});
-
+};
 
 LolClient.prototype.checkLoginQueue = function(cb) {
 	var _this = this;
@@ -77,7 +77,7 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 				var champ = response.champ;
 				var rate = response.rate;
 				var delay = response.delay;
-				var node = reponse.node;
+				var node = response.node;
 				var id = 0;
 				var cur = 0;
 
@@ -104,7 +104,7 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 				}, delay);
 			} else {
 				if (_this.options.debug) {
-					console.log("Login Queue Response: ", reponse);
+					console.log("Login Queue Response: ", response);
 				}
 				_this.options.queueToken = response.token;
 				cb(null, _this.options.queueToken);
@@ -134,6 +134,7 @@ LolClient.prototype.setupRTMP = function() {
 	this.rtmp = new RTMPClient(this.stream);
 	if (this.options.debug) { console.log("Handshaking RTMP"); }
 
+	console.log(this.rtmp);
 	this.rtmp.handshake(function(err) {
 		if (err) {
 			_this.stream.destroy();
@@ -211,7 +212,7 @@ LolClient.prototype.subscribeCN = function(result) {
 			_this.stream.destroy();
 		} else {
 			if (_this.options.debug) { console.log("CN Subscription Success"); }
-			_this.subscribeCN(result);
+			_this.subscribeBC(result);
 		}
 	})
 };

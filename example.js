@@ -5,7 +5,7 @@ options = {
 	region: 'na',
 	username: 'username',
 	password: 'password',
-	version: '',
+	version: '4.20.0.315',
 	debug: true
 };
 
