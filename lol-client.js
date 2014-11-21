@@ -13,15 +13,30 @@ var LolClient = function(options) {
 	this.options = options;
 
 	this._rtmpHosts = {
-		na: 'prod.na2.lol.riotgames.com',
+		na: 'prod.na1.lol.riotgames.com',
 		euw: 'prod.eu.lol.riotgames.com',
-		eune: 'prod.eun1.lol.riotgames.com'
+		eune: 'prod.eun1.lol.riotgames.com',
+		kr: 'prod.kr.lol.riotgames.com',
+		br: 'prod.br.lol.riotgames.com',
+		tr: 'prod.tr.lol.riotgames.com',
+		ru: 'prod.ru.lol.riotgames.com',
+		lan: 'prod.la1.lol.riotgames.com',
+		las: 'prod.la2.lol.riotgames.com',
+		oce: 'prod.oc1.lol.riotgames.com',
+		pbe: 'prod.pbe1.lol.riotgames.com'
 	};
 
 	this._loginQueueHosts = {
-		na: 'lq.na2.lol.riotgames.com',
+		na: 'lq.na1.lol.riotgames.com',
 		euw: 'lq.eu.lol.riotgames.com',
-		eune: 'lq.eun1.lol.riotgames.com'
+		eune: 'lq.eun1.lol.riotgames.com',
+		kr: 'lq.kr.lol.riotgames.com',
+		br: 'lq.br.lol.riotgames.com',
+		tr: 'lq.tr.lol.riotgames.com',
+		lan: 'lq.la1.lol.riotgames.com',
+		las: 'lq.la2.lol.riotgames.com',
+		oce: 'lq.oc1.lol.riotgames.com',
+		pbe: 'lq.pbe1.lol.riotgames.com'
 	};
 
 	if (this.options.region) {
@@ -73,6 +88,10 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 			console.log("Error: " + err);
 		} else {
 			if(!response.token) {
+
+				if (response.status === "BUSY") { 
+					return console.log("Server too busy right now.");
+				}
 				var champ = response.champ;
 				var rate = response.rate;
 				var delay = response.delay;
