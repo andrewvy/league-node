@@ -2,15 +2,14 @@ var tls = require('tls');
 var loginQueue = require('./lib/login-queue');
 var lolPackets = require('./lib/packets');
 var rtmp = require('namf/rtmp');
-
+var util = require('util');
 var RTMPClient = rtmp.RTMPClient;
 var RTMPCommand = rtmp.RTMPCommand;
 var EventEmitter = require('events').EventEmitter;
+var Decoder = require('namf/amf3').Decoder;
 
 var LolClient = function(options) {
 	EventEmitter.apply(this, arguments);
-
-	console.log(options);
 	this.options = options;
 
 	this._rtmpHosts = {
@@ -175,6 +174,8 @@ LolClient.prototype.performLogin = function(result) {
 			if (_this.options.debug) { console.log('RTMP Login Failed'); }
 			_this.stream.destroy();
 		} else {
+			_this.options.clientId = result.args[0].clientId;
+
 			if (_this.options.debug) { console.log('RTMP Login Success'); }
 			_this.subscribeGN(result);
 		}
