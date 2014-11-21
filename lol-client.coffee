@@ -142,7 +142,7 @@ class LolClient extends EventEmitter
 
 	getMatchHistory: (acctId, cb) =>
 		console.log "Fetching recent games for #{acctId}" if @options.debug
-		RecentGames = lolPackets.RecentGames
+		RecentGames = lolPackets.RecentGamesPacket
 		cmd = new RTMPCommand(0x11, null, null, null, [new RecentGames(@options).generate(Number(acctId))])
 		@rtmp.send cmd, (err, result) =>
 			return cb(err) if err
