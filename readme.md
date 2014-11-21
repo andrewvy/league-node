@@ -28,3 +28,7 @@ We've got some RTMP Queries working!
 	LolClient.getTeamById(teamId, cb)
 
 	LolClient.getSummonerData(acctId, cb)
+
+--------------------
+
+As of Oct. 1st, Riot does not condone the use of the RTMP API. You're much better of using their own official API located [here.](https://developer.riotgames.com)
