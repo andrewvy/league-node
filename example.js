@@ -19,8 +19,7 @@ var client = new LolClient(options);
 
 client.on('connection', function() {
 	console.log("Successfully connected!");
-
-	client.getSummonerByName("", function(err, result) {
+	client.getSummonerByName("summoner_name", function(err, result) {
 		return console.log(util.inspect(result, false, null, true));
 	});
 });

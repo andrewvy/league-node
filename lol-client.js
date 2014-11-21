@@ -105,6 +105,7 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 				if (_this.options.debug) {
 					console.log("Login Queue Response: ", response);
 				}
+				console.log("Token", response.token);
 				_this.options.queueToken = response.token;
 				cb(null, _this.options.queueToken);
 			}
@@ -174,9 +175,29 @@ LolClient.prototype.performLogin = function(result) {
 			if (_this.options.debug) { console.log('RTMP Login Failed'); }
 			_this.stream.destroy();
 		} else {
-			_this.options.clientId = result.args[0].clientId;
+			console.log(util.inspect(result.args[0]));
+			_this.options.clientId = result.args[0].clientId.toString('hex');
 
 			if (_this.options.debug) { console.log('RTMP Login Success'); }
+			_this.performAuthentication(result);
+		}
+	});
+};
+
+LolClient.prototype.performAuthentication = function(result) {
+	var _this = this;
+	this.options.authToken = result.args[0].body.object.token;
+	if (this.options.debug) { console.log("Performing Session Authentication") }
+
+	var AuthPacket = lolPackets.AuthPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new AuthPacket(this.options).generate()]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) {
+			if (_this.options.debug) { console.log("Session Authentication Failed"); }
+			_this.stream.destroy();
+		} else {
+			if (_this.options.debug) { console.log("Session Authentication Success"); }
 			_this.subscribeGN(result);
 		}
 	});
