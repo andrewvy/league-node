@@ -236,35 +236,123 @@ LolClient.prototype.subscribeBC = function(result) {
 };
 
 LolClient.prototype.getSummonerByName = function(name, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Finding player by name: " + name); }
+	var LookupPacket = lolPackets.LookupPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new LookupPacket(this.options).generate(name)]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 LolClient.prototype.getCurrentGameByName = function(name, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Getting current game by name: " + name); }
+	var GetCurrentGamePacket = lolPackets.GetCurrentGamePacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new GetCurrentGamePacket(this.options).generate(name)]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 LolClient.prototype.getSummonerStats = function(acctId, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Fetching summoner stats for account id: " + acctId); }
+	var PlayerStatsPacket = lolPackets.PlayerStatsPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new PlayerStatsPacket(this.options).generate(Number(acctId))]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 LolClient.prototype.getMatchHistory= function(acctId, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Fetching Match History for account id: " + acctId); }
+	var RecentGamesPacket = lolPackets.RecentGamesPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new RecentGamesPacket(this.options).generate(Number(acctId))]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 LolClient.prototype.getAggregatedStats = function(acctId, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Getting aggregated stats for account id: " + acctId); }
+	var AggregatedStatsPacket = lolPackets.AggregatedStatsPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new AggregatedStatsPacket(this.options).generate(Number(acctId))]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 LolClient.prototype.getTeamsForSummoner = function(summonerId, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Finding teams for summoner id: " + summonerId); }
+	var GetTeamsForSummonerPacket = lolPackets.GetTeamsForSummonerPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new GetTeamsForSummonerPacket(this.options).generate(Number(summonerId))]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 LolClient.prototype.getTeamById = function(teamId, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Finding team by team id: " + teamId); }
+	var GetTeamByIdPacket = lolPackets.GetTeamByIdPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new GetTeamByIdPacket(this.options).generate(Number(teamId))]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 LolClient.prototype.getSummonerData = function(acctId, cb) {
+	var _this = this;
 
+	if ( this.options.debug) { console.log("Finding summoner data for account id: " + acctId); }
+	var GetSummonerDataPacket = lolPackets.GetSummonerDataPacket;
+	var cmd = new RTMPCommand(0x11, null, null, null, [new GetSummonerDataPacket(this.options).generate(Number(acctId))]);
+
+	this.rtmp.send(cmd, function(err, result) {
+		if (err) { return cb(err); }
+		if (result != null) {
+			return cb(null, result.args[0].body);
+		}
+	});
 };
 
 module.exports  = LolClient;
