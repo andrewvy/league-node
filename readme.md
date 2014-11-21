@@ -5,4 +5,4 @@ Forked from https://github.com/nagash/node-lol-client, credits for his work on m
 
 This fork aims to fix the bugs left behind in the original project, and expand the features for developmental purposes.
 
-View example.js to get an understanding of how the client works, or read the documentation here: https://github.com/andrewvy/league-node/wiki/How-To-Use!
+Right now, it doesn't seem like some queries are working. You're much better off using the official Riot API instead of using the RTMP api. ):
