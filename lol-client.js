@@ -67,9 +67,6 @@
       this.options.password = this.options.password;
       this.options.version = this.options.version || '3.15.13_12_13_16_07';
       this.options.debug = this.options.debug || false;
-      if (this.options.debug) {
-        //console.log(this.options);
-      }
     }
 
 
