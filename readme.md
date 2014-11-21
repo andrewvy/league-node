@@ -6,3 +6,6 @@ Forked from https://github.com/nagash/node-lol-client, credits for his work on m
 This fork aims to fix the bugs left behind in the original project, and expand the features for developmental purposes.
 
 We've got some RTMP Queries working!
+
+[Getting Started](https://github.com/andrewvy/league-node/wiki/Getting-Started)
+-------------------

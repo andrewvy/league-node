@@ -175,7 +175,6 @@ LolClient.prototype.performLogin = function(result) {
 			if (_this.options.debug) { console.log('RTMP Login Failed'); }
 			_this.stream.destroy();
 		} else {
-			console.log(util.inspect(result.args[0]));
 			_this.options.clientId = result.args[0].clientId.toString('hex');
 
 			if (_this.options.debug) { console.log('RTMP Login Success'); }

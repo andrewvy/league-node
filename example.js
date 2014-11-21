@@ -1,7 +1,6 @@
 var LolClient = require('./lol-client');
-var util = require('util');
 
-options = {
+var options = {
 	region: 'na',
 	username: 'username',
 	password: 'password',
@@ -9,19 +8,11 @@ options = {
 	debug: true
 };
 
-summoner = {
-	name: 'HotshotGG',
-	acctId: 434582,
-	summonerId: 407750
-};
-
 var client = new LolClient(options);
 
 client.on('connection', function() {
 	console.log("Successfully connected!");
-	client.getSummonerByName("summoner_name", function(err, result) {
-		return console.log(util.inspect(result, false, null, true));
-	});
+	// Put other code in here, once the client has successfully connected. Queries, etc.
 });
 
 client.connect();
