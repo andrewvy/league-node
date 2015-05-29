@@ -23,7 +23,8 @@ var LolClient = function(options) {
 		lan: 'prod.la1.lol.riotgames.com',
 		las: 'prod.la2.lol.riotgames.com',
 		oce: 'prod.oc1.lol.riotgames.com',
-		pbe: 'prod.pbe1.lol.riotgames.com'
+		pbe: 'prod.pbe1.lol.riotgames.com',
+                            tw: 'prodtw.lol.garenanow.com'
 	};
 
 	this._loginQueueHosts = {
@@ -50,8 +51,13 @@ var LolClient = function(options) {
 	this.options.port = this.options.port || 2099;
 	this.options.username = this.options.username;
 	this.options.password = this.options.password;
+              this.options.useGarena = this.options.useGarena;
+              this.options.garenaToken = this.options.garenaToken;
 
-	this.options.version = this.options.version || '1.55.12_02_27_22_54';
+              if (this.options.useGarena)
+                  this.options.password = this.options.garenaToken;
+
+	this.options.version = this.options.version || '5.10.0.365';
 	this.options.debug = this.options.debug || false;
 
 	if (this.options.debug) {
@@ -82,7 +88,7 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 		console.log("Checking Login Queue");
 	}
 
-	loginQueue(this.options.lqHost, this.options.username, this.options.password, function(err, response) {
+	loginQueue(this.options.lqHost, this.options.username, this.options.password, this.options.useGarena,  function(err, response) {
 		if(err && _this.options.debug) {
 			console.log("Login Queue Failed");
 			console.log("Error: " + err);
