@@ -134,8 +134,8 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 					console.log("Login Queue Response: ", response);
 				}
 				_this.options.queueToken = response.token;
-				if (this.options.useGarena) {
-					this.options.userId = response.user;
+				if (_this.options.useGarena) {
+					_this.options.userId = response.user;
 				}
 				cb(null, _this.options.queueToken);
 			}
