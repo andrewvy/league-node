@@ -13,7 +13,7 @@ var LolClient = function(options) {
 	this.options = options;
 
 	this._rtmpHosts = {
-		na: 'prod.na1.lol.riotgames.com',
+		na: 'prod.na2.lol.riotgames.com',
 		euw: 'prod.eu.lol.riotgames.com',
 		eune: 'prod.eun1.lol.riotgames.com',
 		kr: 'prod.kr.lol.riotgames.com',
@@ -27,7 +27,7 @@ var LolClient = function(options) {
 	};
 
 	this._loginQueueHosts = {
-		na: 'lq.na1.lol.riotgames.com',
+		na: 'lq.na2.lol.riotgames.com',
 		euw: 'lq.eu.lol.riotgames.com',
 		eune: 'lq.eun1.lol.riotgames.com',
 		kr: 'lq.kr.lol.riotgames.com',
