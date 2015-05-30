@@ -13,7 +13,7 @@ var LolClient = function(options) {
 	this.options = options;
 
 	this._rtmpHosts = {
-		na: 'prod.na1.lol.riotgames.com',
+		na: 'prod.na2.lol.riotgames.com',
 		euw: 'prod.eu.lol.riotgames.com',
 		eune: 'prod.eun1.lol.riotgames.com',
 		kr: 'prod.kr.lol.riotgames.com',
@@ -23,11 +23,12 @@ var LolClient = function(options) {
 		lan: 'prod.la1.lol.riotgames.com',
 		las: 'prod.la2.lol.riotgames.com',
 		oce: 'prod.oc1.lol.riotgames.com',
-		pbe: 'prod.pbe1.lol.riotgames.com'
+		pbe: 'prod.pbe1.lol.riotgames.com',
+       tw: 'prodtw.lol.garenanow.com'
 	};
 
 	this._loginQueueHosts = {
-		na: 'lq.na1.lol.riotgames.com',
+		na: 'lq.na2.lol.riotgames.com',
 		euw: 'lq.eu.lol.riotgames.com',
 		eune: 'lq.eun1.lol.riotgames.com',
 		kr: 'lq.kr.lol.riotgames.com',
@@ -36,7 +37,8 @@ var LolClient = function(options) {
 		lan: 'lq.la1.lol.riotgames.com',
 		las: 'lq.la2.lol.riotgames.com',
 		oce: 'lq.oc1.lol.riotgames.com',
-		pbe: 'lq.pbe1.lol.riotgames.com'
+		pbe: 'lq.pbe1.lol.riotgames.com',
+		tw: 'loginqueuetw.lol.garenanow.com'
 	};
 
 	if (this.options.region) {
@@ -50,8 +52,15 @@ var LolClient = function(options) {
 	this.options.port = this.options.port || 2099;
 	this.options.username = this.options.username;
 	this.options.password = this.options.password;
+   this.options.useGarena = this.options.useGarena || false;
+   this.options.garenaToken = this.options.garenaToken || '';
+	if (this.options.useGarena) {
+		this.options.password = '';
+		this.options.username = '';
+		this.options.userId = '';
+	}
 
-	this.options.version = this.options.version || '1.55.12_02_27_22_54';
+	this.options.version = this.options.version || '5.10.0.365';
 	this.options.debug = this.options.debug || false;
 
 	if (this.options.debug) {
@@ -82,7 +91,7 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 		console.log("Checking Login Queue");
 	}
 
-	loginQueue(this.options.lqHost, this.options.username, this.options.password, function(err, response) {
+	loginQueue(this.options.lqHost, this.options.username, this.options.password, this.options.useGarena, this.options.garenaToken,  function(err, response) {
 		if(err && _this.options.debug) {
 			console.log("Login Queue Failed");
 			console.log("Error: " + err);
@@ -125,6 +134,9 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 					console.log("Login Queue Response: ", response);
 				}
 				_this.options.queueToken = response.token;
+				if (_this.options.useGarena) {
+					_this.options.userId = response.user;
+				}
 				cb(null, _this.options.queueToken);
 			}
 		}
@@ -204,7 +216,9 @@ LolClient.prototype.performLogin = function(result) {
 LolClient.prototype.performAuthentication = function(result) {
 	var _this = this;
 	this.options.authToken = result.args[0].body.object.token;
-	if (this.options.debug) { console.log("Performing Session Authentication") }
+	if (this.options.debug) { 
+		console.log("Performing Session Authentication") ;
+	}
 
 	var AuthPacket = lolPackets.AuthPacket;
 	var cmd = new RTMPCommand(0x11, null, null, null, [new AuthPacket(this.options).generate()]);
@@ -235,7 +249,7 @@ LolClient.prototype.subscribeGN = function(result) {
 			if (_this.options.debug) { console.log("GN Subscription Success"); }
 			_this.subscribeCN(result);
 		}
-	})
+	});
 };
 
 LolClient.prototype.subscribeCN = function(result) {
@@ -253,7 +267,7 @@ LolClient.prototype.subscribeCN = function(result) {
 			if (_this.options.debug) { console.log("CN Subscription Success"); }
 			_this.subscribeBC(result);
 		}
-	})
+	});
 };
 
 LolClient.prototype.subscribeBC = function(result) {
@@ -271,7 +285,7 @@ LolClient.prototype.subscribeBC = function(result) {
 			if (_this.options.debug) { console.log("Connect Proceess Completed"); }
 			_this.emit('connection');
 		}
-	})
+	});
 };
 
 LolClient.prototype.heartbeat = function() {
@@ -284,12 +298,12 @@ LolClient.prototype.heartbeat = function() {
 
 	this.rtmp.send(cmd, function(err, result) {
 		if (err && _this.options.debug) {
-			console.log("Heartbeat failed")
+			console.log("Heartbeat failed");
 		} else if (_this.options.debug) {
-			console.log("Heartbeat success")
+			console.log("Heartbeat success");
 		}
 	});
-}
+};
 
 LolClient.prototype.getSummonerByName = function(name, cb) {
 	var _this = this;
