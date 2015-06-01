@@ -24,7 +24,7 @@ var LolClient = function(options) {
 		las: 'prod.la2.lol.riotgames.com',
 		oce: 'prod.oc1.lol.riotgames.com',
 		pbe: 'prod.pbe1.lol.riotgames.com',
-       tw: 'prodtw.lol.garenanow.com'
+		tw: 'prodtw.lol.garenanow.com'
 	};
 
 	this._loginQueueHosts = {
@@ -52,8 +52,9 @@ var LolClient = function(options) {
 	this.options.port = this.options.port || 2099;
 	this.options.username = this.options.username;
 	this.options.password = this.options.password;
-   this.options.useGarena = this.options.useGarena || false;
-   this.options.garenaToken = this.options.garenaToken || '';
+	this.options.useGarena = this.options.useGarena || false;
+	this.options.garenaToken = this.options.garenaToken || '';
+
 	if (this.options.useGarena) {
 		this.options.password = '';
 		this.options.username = '';
@@ -91,16 +92,16 @@ LolClient.prototype.checkLoginQueue = function(cb) {
 		console.log("Checking Login Queue");
 	}
 
-	loginQueue(this.options.lqHost, this.options.username, this.options.password, this.options.useGarena, this.options.garenaToken,  function(err, response) {
-		if(err && _this.options.debug) {
+	loginQueue(this.options.lqHost, this.options.username, this.options.password, this.options.useGarena, this.options.garenaToken, function(err, response) {
+		if (err && _this.options.debug) {
 			console.log("Login Queue Failed");
 			console.log("Error: " + err);
 		} else {
-			if(!response.token) {
-
-				if (response.status === "BUSY") { 
+			if (!response.token) {
+				if (response.status === "BUSY") {
 					return console.log("Server too busy right now.");
 				}
+
 				var champ = response.champ;
 				var rate = response.rate;
 				var delay = response.delay;
